@@ -7,24 +7,28 @@ ALL = {}
 def enter_name():
     return input("Enter a stock symbol: ")
 
-def adder():
-    symbol = enter_name()
+def adder(symbol = "Holder"):
+    if symbol == "Holder":
+        symbol = enter_name().upper()
     url = stock_api.create_url(symbol)
+    #print(url)
     try:
         data = stock_api.get_data(url)
         stock_api.check_valid(data)
-    except InvalidSymbol:
+    except stock_api.InvalidSymbol:
         print("Invalid Stock Symbol")
+        return
     parsed = stock_api.get_current_close(data)
     current = parsed[0]
     time = parsed[1][-8:]
     #print(time)
     ALL[symbol] = [current, time]
-    return ALL
+    return
 
 def update(ALL:dict):
-    #takes in symbols and updates their value
-    pass
+    for (key, value) in ALL.items():
+        adder(key)
+    return
 
 def display(ALL: dict):
     print("=" * 50)
@@ -46,6 +50,7 @@ def display(ALL: dict):
 if __name__ == "__main__":
     #add updating using time modules (update every minute)
     while True:
-        ALL = adder()
+        adder()
+        update(ALL)
         display(ALL)
  
