@@ -64,18 +64,19 @@ def fromFile():
         return
     return
 
+
 def toFile():
     response = input("Would you like to save this session's symbols? ")
-    fileName = input("Enter file name: ")
     if response[0].lower() == 'y':
+        fileName = input("Enter file name: ")
         file = open(fileName, 'w')
         for (key,value) in ALL.items():
             file.write(key + '\n')
         file.close()
-    print("Symbols saved as symbolsFile.txt")
+    print("Symbols saved as " + fileName + ".txt")
     print("Ending program...")
     exit()
-
+        
 if __name__ == "__main__":
     #add updating using time modules (update every minute)
     fromFile()
